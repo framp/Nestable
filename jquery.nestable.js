@@ -289,11 +289,14 @@
             // fix for zepto.js
             //this.placeEl.replaceWith(this.dragEl.children(this.options.itemNodeName + ':first').detach());
             var el = this.dragEl.children(this.options.itemNodeName).first();
+            
             el[0].parentNode.removeChild(el[0]);
             this.placeEl.replaceWith(el);
-
             this.dragEl.remove();
-            this.el.trigger('change');
+            
+            var parent = el.parent().parent().attr('data-id');
+            var current = el.attr('data-id');
+            this.el.trigger('change', [parent, current]);
             if (this.hasNewRoot) {
                 this.dragRootEl.trigger('change');
             }
