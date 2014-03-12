@@ -296,7 +296,8 @@
             
             var parent = el.parent().parent().attr('data-id');
             var current = el.attr('data-id');
-            this.el.trigger('change', [parent, current]);
+            var order = el.parent().find('>.dd-item').index(el);
+            this.el.trigger('change', [parent, current, order]);
             if (this.hasNewRoot) {
                 this.dragRootEl.trigger('change');
             }
