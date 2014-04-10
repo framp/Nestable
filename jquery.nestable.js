@@ -43,6 +43,7 @@
             placeClass      : 'dd-placeholder',
             noDragClass     : 'dd-nodrag',
             emptyClass      : 'dd-empty',
+		  customActions	: {},
             expandBtnHTML   : '<button data-action="expand" type="button">Expand</button>',
             collapseBtnHTML : '<button data-action="collapse" type="button">Collapse</button>',
             group           : 0,
@@ -86,7 +87,11 @@
                 }
                 if (action === 'expand') {
                     list.expandItem(item);
-                }
+                } else {
+				if( typeof list.options.customActions != 'undefined' && list.options.customActions.hasOwnProperty(action) ) {
+					list.options.customActions[action]( item, target, e );
+				}
+ 			 }
             });
 
             var onStartEvent = function(e)
@@ -240,7 +245,8 @@
         unsetParent: function(li)
         {
             li.removeClass(this.options.collapsedClass);
-            li.children('[data-action]').remove();
+            li.children('[data-action="expand"]').remove();
+            li.children('[data-action="collapse"]').remove();
             li.children(this.options.listNodeName).remove();
         },
 
@@ -486,4 +492,4 @@
         return retval || lists;
     };
 
-})(window.jQuery || window.Zepto, window, document);
+})(window.jQuery || window.Zepto, window, document); 
